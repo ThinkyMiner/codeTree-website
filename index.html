@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codetree — Structured Code Understanding for AI Agents</title>
+    <meta name="description"
+        content="Stop feeding entire files to your AI agent. codetree is an MCP server that gives coding agents structured code understanding via tree-sitter.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round">
+                    <line x1="12" y1="22" x2="12" y2="8"></line>
+                    <line x1="12" y1="8" x2="6" y2="2"></line>
+                    <line x1="12" y1="8" x2="18" y2="2"></line>
+                </svg>
+                codetree
+            </a>
+            <div class="nav-links">
+                <a href="#problem">Problem</a>
+                <a href="#tools">Tools</a>
+                <a href="#ecosystem">Ecosystem</a>
+                <a href="https://github.com/ThinkyMiner/codeTree" target="_blank" class="nav-gh">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <p class="hero-label">MCP Server for Code Intelligence</p>
+                <h1 class="hero-title">Stop feeding <em>entire files</em><br>to your AI agent.</h1>
+                <p class="hero-sub">codetree gives coding agents structured code understanding via tree-sitter — so they ask precise questions instead of reading thousands of lines.</p>
+
+                <div class="hero-actions">
+                    <div class="install-box">
+                        <code class="install-cmd">pip install codetree</code>
+                        <button class="copy-btn" aria-label="Copy">
+                            <svg class="copy-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <svg class="check-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2.5" fill="none" style="display:none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </button>
+                    </div>
+                    <a href="https://github.com/ThinkyMiner/codeTree" target="_blank" class="btn-primary">View on GitHub &rarr;</a>
+                </div>
+
+                <p class="hero-pitch">Instead of <code>cat main.py</code> (500 lines, 12K tokens), your agent calls <code>get_file_skeleton("main.py")</code> and gets 15 lines of structured output.</p>
+            </div>
+        </section>
+
+        <!-- Before / After -->
+        <section class="section" id="compare">
+            <div class="container">
+                <div class="demo-terminal" data-reveal>
+                    <div class="demo-bar">
+                        <span class="panel-dot red"></span>
+                        <span class="panel-dot yellow"></span>
+                        <span class="panel-dot green"></span>
+                        <span class="demo-bar-title">calculator.py</span>
+                    </div>
+                    <div class="demo-body">
+                        <!-- Before -->
+                        <div class="demo-block">
+                            <div class="demo-cmd"><span class="demo-prompt">$</span> cat calculator.py</div>
+                            <div class="demo-output demo-output-before">
+                                <code>import math
+from typing import Optional
+
+class Calculator:
+    """A scientific calculator with memory."""
+
+    def __init__(self):
+        self.memory = 0
+        self.history = []
+
+    def add(self, a: float, b: float) -> float:
+        """Add two numbers."""
+        result = a + b
+        self.history.append(('add', a, b, result))
+        return result
+
+    def divide(self, a: float, b: float):
+        if b == 0:
+            return None
+        result = a / b
+        self.history.append(('divide', a, b, result))
+        return result</code>
+                                <div class="demo-fade"></div>
+                            </div>
+                            <div class="demo-token-row">
+                                <div class="demo-token-bar bar-before"></div>
+                                <span class="demo-token-label label-before">~2,000 tokens</span>
+                            </div>
+                        </div>
+
+                        <div class="demo-divider">
+                            <span>with codetree</span>
+                        </div>
+
+                        <!-- After -->
+                        <div class="demo-block">
+                            <div class="demo-cmd"><span class="demo-prompt">$</span> get_file_skeleton("calculator.py")</div>
+                            <div class="demo-output demo-output-after">
+                                <code>class Calculator → line 4
+  "A scientific calculator with memory."
+  def __init__(self) → line 7
+  def add(self, a: float, b: float) → line 11
+    "Add two numbers."
+  def divide(self, a: float, b: float) → line 17
+    "Divide a by b, returns None on zero."
+  def sqrt(self, x: float) → line 24
+    "Square root using math.sqrt."</code>
+                            </div>
+                            <div class="demo-token-row">
+                                <div class="demo-token-bar bar-after"></div>
+                                <span class="demo-token-label label-after">~80 tokens</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-footer">
+                        <span class="demo-result">25x reduction</span>
+                        <span class="demo-result-sub">Same information. Every class, method, docstring, and line number.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem -->
+        <section class="section section-alt" id="problem">
+            <div class="container">
+                <h2 class="section-title" data-reveal>The problem with coding agents <em>today</em></h2>
+                <p class="section-sub" data-reveal>They understand code the same way a human greps through a codebase — raw text with no structure.</p>
+
+                <div class="problem-list">
+                    <div class="problem-item" data-reveal>
+                        <span class="problem-what">Read entire files to find one function</span>
+                        <span class="problem-why">Wastes context window tokens</span>
+                    </div>
+                    <div class="problem-item" data-reveal>
+                        <span class="problem-what">Grep for function names across files</span>
+                        <span class="problem-why">Misses structural relationships</span>
+                    </div>
+                    <div class="problem-item" data-reveal>
+                        <span class="problem-what">Guess what a function calls</span>
+                        <span class="problem-why">No call graph visibility</span>
+                    </div>
+                    <div class="problem-item" data-reveal>
+                        <span class="problem-what">Can't tell what breaks if they change something</span>
+                        <span class="problem-why">No impact analysis</span>
+                    </div>
+                    <div class="problem-item" data-reveal>
+                        <span class="problem-what">Read the same boilerplate across similar functions</span>
+                        <span class="problem-why">No deduplication awareness</span>
+                    </div>
+                    <div class="problem-item" data-reveal>
+                        <span class="problem-what">Don't know which symbols matter most</span>
+                        <span class="problem-why">No importance ranking</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution -->
+        <section class="section" id="solution">
+            <div class="container">
+                <h2 class="section-title" data-reveal>How codetree <em>works</em></h2>
+                <p class="section-sub" data-reveal>Sits between the agent and the repo. Parses every file with tree-sitter. Exposes 16 structured tools over MCP.</p>
+
+                <div class="flow" data-reveal>
+                    <div class="flow-step">Agent asks a question</div>
+                    <span class="flow-arrow">&darr;</span>
+                    <div class="flow-step flow-active">MCP tool call <small>e.g. get_file_skeleton</small></div>
+                    <span class="flow-arrow">&darr;</span>
+                    <div class="flow-step">codetree &rarr; tree-sitter parses the file</div>
+                    <span class="flow-arrow">&darr;</span>
+                    <div class="flow-step flow-done">Structured answer back to the agent</div>
+                </div>
+
+                <div class="features" data-reveal>
+                    <div class="feature">
+                        <strong>~1 second startup</strong>
+                        <span>Smart caching with mtime invalidation</span>
+                    </div>
+                    <div class="feature">
+                        <strong>Zero dependencies</strong>
+                        <span>No vector DB, no embedding model, no daemon</span>
+                    </div>
+                    <div class="feature">
+                        <strong>One-line install</strong>
+                        <span>pip install codetree — that's it</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 16 Tools -->
+        <section class="section section-alt" id="tools">
+            <div class="container">
+                <h2 class="section-title" data-reveal>16 tools for <em>autonomous</em> agents</h2>
+
+                <div class="tools-grid">
+                    <div class="tool-group" data-reveal>
+                        <h3>Understand Structure</h3>
+                        <div class="tool-list">
+                            <div class="tool"><code>get_file_skeleton</code><span>Classes + signatures with line numbers</span></div>
+                            <div class="tool"><code>get_symbol</code><span>Full source of one function or class</span></div>
+                            <div class="tool"><code>get_skeletons</code><span>Batch skeletons for multiple files</span></div>
+                            <div class="tool"><code>get_symbols</code><span>Batch source for multiple symbols</span></div>
+                            <div class="tool"><code>get_imports</code><span>Import statements with line numbers</span></div>
+                        </div>
+                    </div>
+
+                    <div class="tool-group" data-reveal>
+                        <h3>Navigate Relationships</h3>
+                        <div class="tool-list">
+                            <div class="tool"><code>find_references</code><span>Every usage across the repo</span></div>
+                            <div class="tool"><code>get_call_graph</code><span>What calls what</span></div>
+                            <div class="tool"><code>get_blast_radius</code><span>Transitive impact analysis</span></div>
+                            <div class="tool"><code>rank_symbols</code><span>PageRank importance</span></div>
+                        </div>
+                    </div>
+
+                    <div class="tool-group" data-reveal>
+                        <h3>Analyze Quality</h3>
+                        <div class="tool-list">
+                            <div class="tool"><code>get_complexity</code><span>Cyclomatic complexity</span></div>
+                            <div class="tool"><code>find_dead_code</code><span>Unused symbols</span></div>
+                            <div class="tool"><code>detect_clones</code><span>Duplicate functions</span></div>
+                        </div>
+                    </div>
+
+                    <div class="tool-group" data-reveal>
+                        <h3>Inspect & Test</h3>
+                        <div class="tool-list">
+                            <div class="tool"><code>search_symbols</code><span>Flexible filtered search</span></div>
+                            <div class="tool"><code>get_ast</code><span>Raw AST as S-expression</span></div>
+                            <div class="tool"><code>find_tests</code><span>Tests for any symbol</span></div>
+                            <div class="tool"><code>get_variables</code><span>Params + locals</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ecosystem -->
+        <section class="section" id="ecosystem">
+            <div class="container">
+                <div class="eco-row">
+                    <div class="eco-block" data-reveal>
+                        <h2 class="section-title">10 <em>languages</em></h2>
+                        <p class="section-sub">All backed by official tree-sitter grammars. Adding a language is mechanical — copy a template, implement 5 methods, register.</p>
+                        <div class="lang-tags">
+                            <span>Python</span>
+                            <span>JavaScript</span>
+                            <span>TypeScript</span>
+                            <span>TSX</span>
+                            <span>Go</span>
+                            <span>Rust</span>
+                            <span>Java</span>
+                            <span>C</span>
+                            <span>C++</span>
+                            <span>Ruby</span>
+                        </div>
+                    </div>
+
+                    <div class="eco-block" data-reveal>
+                        <h2 class="section-title">Works <em>everywhere</em></h2>
+                        <p class="section-sub">MCP over stdio. Any editor or tool that supports the Model Context Protocol.</p>
+                        <div class="client-tabs">
+                            <div class="tab-bar">
+                                <button class="tab-btn active" data-tab="t-claude">Claude Code</button>
+                                <button class="tab-btn" data-tab="t-cursor">Cursor</button>
+                                <button class="tab-btn" data-tab="t-vscode">VS Code</button>
+                                <button class="tab-btn" data-tab="t-windsurf">Windsurf</button>
+                            </div>
+                            <div class="tab-pane active" id="t-claude">
+                                <pre><code>claude mcp add codetree -- \
+  codetree --root /path/to/project</code></pre>
+                            </div>
+                            <div class="tab-pane" id="t-cursor">
+                                <pre><code>// .cursor/mcp.json
+{
+  "mcpServers": {
+    "codetree": {
+      "command": "codetree",
+      "args": ["--root", "/path/to/project"]
+    }
+  }
+}</code></pre>
+                            </div>
+                            <div class="tab-pane" id="t-vscode">
+                                <pre><code>// .vscode/mcp.json
+{
+  "servers": {
+    "codetree": {
+      "command": "codetree",
+      "args": ["--root", "/path/to/project"]
+    }
+  }
+}</code></pre>
+                            </div>
+                            <div class="tab-pane" id="t-windsurf">
+                                <pre><code>// ~/.codeium/windsurf/mcp_config.json
+{
+  "mcpServers": {
+    "codetree": {
+      "command": "codetree",
+      "args": ["--root", "/path/to/project"]
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="stats-row">
+                    <div class="stat" data-reveal>
+                        <span class="stat-num" data-count="16">0</span>
+                        <span class="stat-label">MCP tools</span>
+                    </div>
+                    <div class="stat" data-reveal>
+                        <span class="stat-num" data-count="10">0</span>
+                        <span class="stat-label">Languages</span>
+                    </div>
+                    <div class="stat" data-reveal>
+                        <span class="stat-num">~1s</span>
+                        <span class="stat-label">Startup</span>
+                    </div>
+                    <div class="stat" data-reveal>
+                        <span class="stat-num" data-count="921">0</span>
+                        <span class="stat-label">Tests passing</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why not X -->
+        <section class="section" id="compare-table">
+            <div class="container">
+                <h2 class="section-title" data-reveal>Why not just use <em>[X]</em>?</h2>
+
+                <div class="alt-table">
+                    <div class="alt-row alt-header">
+                        <span>Alternative</span>
+                        <span>Limitation</span>
+                        <span>codetree advantage</span>
+                    </div>
+                    <div class="alt-row" data-reveal>
+                        <span class="alt-name">Reading files directly</span>
+                        <span class="alt-bad">Burns tokens, no structure</span>
+                        <span class="alt-good">25x token reduction</span>
+                    </div>
+                    <div class="alt-row" data-reveal>
+                        <span class="alt-name">grep / ripgrep</span>
+                        <span class="alt-bad">Text only, no AST awareness</span>
+                        <span class="alt-good">Understands code structure</span>
+                    </div>
+                    <div class="alt-row" data-reveal>
+                        <span class="alt-name">LSP servers</span>
+                        <span class="alt-bad">Heavyweight, stateful</span>
+                        <span class="alt-good">One pip install, 10 languages</span>
+                    </div>
+                    <div class="alt-row" data-reveal>
+                        <span class="alt-name">SCIP / LSIF</span>
+                        <span class="alt-bad">Slow index, complex setup</span>
+                        <span class="alt-good">~1s startup, zero config</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust -->
+        <section class="section section-alt">
+            <div class="container">
+                <h2 class="section-title" data-reveal>Built on <em>trusted</em> foundations</h2>
+                <div class="trust-list">
+                    <div class="trust-item" data-reveal>
+                        <strong>tree-sitter</strong> — same parser used by GitHub, Neovim, Zed, and Helix
+                    </div>
+                    <div class="trust-item" data-reveal>
+                        <strong>FastMCP</strong> — stdio transport, zero network config, open protocol by Anthropic
+                    </div>
+                    <div class="trust-item" data-reveal>
+                        <strong>Plugin architecture</strong> — each language is self-contained, adding one means copying a template
+                    </div>
+                    <div class="trust-item" data-reveal>
+                        <strong>Smart caching</strong> — mtime-based invalidation, unchanged files skip parsing
+                    </div>
+                    <div class="trust-item" data-reveal>
+                        <strong>100% local</strong> — zero external services, no data leaves your machine, MIT licensed
+                    </div>
+                    <div class="trust-item" data-reveal>
+                        <strong>921 tests</strong> — full coverage across all 10 languages, CI on Python 3.10-3.13
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section cta-section" id="get-started">
+            <div class="container">
+                <h2 class="section-title" data-reveal>Get <em>started</em></h2>
+                <div class="cta-terminal" data-reveal>
+                    <div class="term-bar">
+                        <span class="panel-dot red"></span>
+                        <span class="panel-dot yellow"></span>
+                        <span class="panel-dot green"></span>
+                    </div>
+                    <pre class="term-code"><code><span class="tc"># Install</span>
+<span class="tp">$</span> pip install codetree
+
+<span class="tc"># Run on your project</span>
+<span class="tp">$</span> codetree --root .
+
+<span class="tc"># Add to Claude Code</span>
+<span class="tp">$</span> claude mcp add codetree -- codetree --root .</code></pre>
+                </div>
+                <a href="https://github.com/ThinkyMiner/codeTree" target="_blank" class="btn-primary btn-lg">View on GitHub &rarr;</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <span class="footer-name">codetree</span>
+            <span class="footer-mid">Structured code understanding for AI agents. MIT Licensed.</span>
+            <a href="https://github.com/ThinkyMiner/codeTree" target="_blank">GitHub</a>
+        </div>
+    </footer>
+
+</body>
+</html>
