@@ -17,8 +17,8 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="styles.css?v=4">
+    <script src="script.js?v=5" defer></script>
 </head>
 
 <body>
@@ -70,11 +70,11 @@
             <div class="container">
                 <p class="hero-label">MCP Server for Code Intelligence</p>
                 <h1 class="hero-title">Stop feeding <em>entire files</em><br>to your AI agent.</h1>
-                <p class="hero-sub">codetree gives coding agents structured code understanding via tree-sitter — so they ask precise questions instead of reading thousands of lines.</p>
+                <p class="hero-sub">codetree gives coding agents structured code understanding via tree-sitter — so they ask precise questions instead of reading thousands of lines. 23 tools, 10 languages, ~1 second startup.</p>
 
                 <div class="hero-actions">
                     <div class="install-box">
-                        <code class="install-cmd">pip install codetree</code>
+                        <code class="install-cmd">pip install mcp-server-codetree</code>
                         <button class="copy-btn" aria-label="Copy">
                             <svg class="copy-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                             <svg class="check-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2.5" fill="none" style="display:none"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -136,11 +136,11 @@ class Calculator:
                             <span>with codetree</span>
                         </div>
 
-                        <!-- After -->
-                        <div class="demo-block">
-                            <div class="demo-cmd"><span class="demo-prompt">$</span> get_file_skeleton("calculator.py")</div>
+                        <!-- After (cycles through tools) -->
+                        <div class="demo-block demo-cycle">
+                            <div class="demo-cmd"><span class="demo-prompt">$</span> <span class="demo-cmd-text">get_file_skeleton("calculator.py")</span></div>
                             <div class="demo-output demo-output-after">
-                                <code>class Calculator → line 4
+                                <code class="demo-output-text">class Calculator → line 4
   "A scientific calculator with memory."
   def __init__(self) → line 7
   def add(self, a: float, b: float) → line 11
@@ -203,7 +203,7 @@ class Calculator:
         <section class="section" id="solution">
             <div class="container">
                 <h2 class="section-title" data-reveal>How codetree <em>works</em></h2>
-                <p class="section-sub" data-reveal>Sits between the agent and the repo. Parses every file with tree-sitter. Exposes 16 structured tools over MCP.</p>
+                <p class="section-sub" data-reveal>Sits between the agent and the repo. Parses every file with tree-sitter. Exposes 23 structured tools over MCP.</p>
 
                 <div class="flow" data-reveal>
                     <div class="flow-step">Agent asks a question</div>
@@ -232,49 +232,175 @@ class Calculator:
             </div>
         </section>
 
-        <!-- 16 Tools -->
+        <!-- 23 Tools -->
         <section class="section section-alt" id="tools">
             <div class="container">
-                <h2 class="section-title" data-reveal>16 tools for <em>autonomous</em> agents</h2>
+                <h2 class="section-title" data-reveal>23 tools for <em>autonomous</em> agents</h2>
+                <p class="section-sub" data-reveal>Every tool an agent needs to navigate, understand, and safely change a codebase.</p>
 
-                <div class="tools-grid">
-                    <div class="tool-group" data-reveal>
-                        <h3>Understand Structure</h3>
-                        <div class="tool-list">
-                            <div class="tool"><code>get_file_skeleton</code><span>Classes + signatures with line numbers</span></div>
-                            <div class="tool"><code>get_symbol</code><span>Full source of one function or class</span></div>
-                            <div class="tool"><code>get_skeletons</code><span>Batch skeletons for multiple files</span></div>
-                            <div class="tool"><code>get_symbols</code><span>Batch source for multiple symbols</span></div>
-                            <div class="tool"><code>get_imports</code><span>Import statements with line numbers</span></div>
+                <div class="tools-tabs" data-reveal>
+                    <div class="tools-tab-bar">
+                        <button class="tools-tab active" data-tab="tt-structure">Structure</button>
+                        <button class="tools-tab" data-tab="tt-relationships">Relationships</button>
+                        <button class="tools-tab" data-tab="tt-quality">Quality</button>
+                        <button class="tools-tab" data-tab="tt-search">Search</button>
+                        <button class="tools-tab" data-tab="tt-graph">Graph</button>
+                        <button class="tools-tab" data-tab="tt-dataflow">Dataflow</button>
+                        <button class="tools-tab" data-tab="tt-viz">Visualization</button>
+                    </div>
+
+                    <div class="tools-pane active" id="tt-structure">
+                        <div class="tools-pane-header">
+                            <h3>Understand Structure</h3>
+                            <span class="tools-pane-count">5 tools</span>
+                        </div>
+                        <div class="tools-list">
+                            <div class="tools-row">
+                                <code>get_file_skeleton</code>
+                                <span>Classes, functions, methods with line numbers and doc comments</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>get_symbol</code>
+                                <span>Full source of a function or class</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>get_skeletons</code>
+                                <span>Batch skeletons for multiple files</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>get_symbols</code>
+                                <span>Batch source for multiple symbols</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>get_imports</code>
+                                <span>Import statements with line numbers</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="tool-group" data-reveal>
-                        <h3>Navigate Relationships</h3>
-                        <div class="tool-list">
-                            <div class="tool"><code>find_references</code><span>Every usage across the repo</span></div>
-                            <div class="tool"><code>get_call_graph</code><span>What calls what</span></div>
-                            <div class="tool"><code>get_blast_radius</code><span>Transitive impact analysis</span></div>
-                            <div class="tool"><code>rank_symbols</code><span>PageRank importance</span></div>
+                    <div class="tools-pane" id="tt-relationships">
+                        <div class="tools-pane-header">
+                            <h3>Navigate Relationships</h3>
+                            <span class="tools-pane-count">3 tools</span>
+                        </div>
+                        <div class="tools-list">
+                            <div class="tools-row">
+                                <code>find_references</code>
+                                <span>All usages of a symbol across the repo</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>get_call_graph</code>
+                                <span>What a function calls and what calls it</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>get_blast_radius</code>
+                                <span>Transitive impact — what breaks if you change this</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="tool-group" data-reveal>
-                        <h3>Analyze Quality</h3>
-                        <div class="tool-list">
-                            <div class="tool"><code>get_complexity</code><span>Cyclomatic complexity</span></div>
-                            <div class="tool"><code>find_dead_code</code><span>Unused symbols</span></div>
-                            <div class="tool"><code>detect_clones</code><span>Duplicate functions</span></div>
+                    <div class="tools-pane" id="tt-quality">
+                        <div class="tools-pane-header">
+                            <h3>Analyze Quality</h3>
+                            <span class="tools-pane-count">3 tools</span>
+                        </div>
+                        <div class="tools-list">
+                            <div class="tools-row">
+                                <code>get_complexity</code>
+                                <span>Cyclomatic complexity breakdown</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>find_dead_code</code>
+                                <span>Symbols defined but never referenced</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>detect_clones</code>
+                                <span>Duplicate or near-duplicate functions</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="tool-group" data-reveal>
-                        <h3>Inspect & Test</h3>
-                        <div class="tool-list">
-                            <div class="tool"><code>search_symbols</code><span>Flexible filtered search</span></div>
-                            <div class="tool"><code>get_ast</code><span>Raw AST as S-expression</span></div>
-                            <div class="tool"><code>find_tests</code><span>Tests for any symbol</span></div>
-                            <div class="tool"><code>get_variables</code><span>Params + locals</span></div>
+                    <div class="tools-pane" id="tt-search">
+                        <div class="tools-pane-header">
+                            <h3>Inspect & Search</h3>
+                            <span class="tools-pane-count">2 tools</span>
+                        </div>
+                        <div class="tools-list">
+                            <div class="tools-row">
+                                <code>search_symbols</code>
+                                <span>Flexible symbol search with filters</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>find_tests</code>
+                                <span>Find test functions for a symbol</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tools-pane" id="tt-graph">
+                        <div class="tools-pane-header">
+                            <h3>Onboarding & Graph</h3>
+                            <span class="tools-pane-count">4 tools</span>
+                        </div>
+                        <div class="tools-list">
+                            <div class="tools-row">
+                                <code>index_status</code>
+                                <span>Graph index freshness and stats</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>get_repository_map</code>
+                                <span>Compact repo overview: languages, entry points, hotspots</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>resolve_symbol</code>
+                                <span>Disambiguate short name into ranked qualified matches</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>search_graph</code>
+                                <span>Graph search with degree filters and pagination</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tools-pane" id="tt-dataflow">
+                        <div class="tools-pane-header">
+                            <h3>Change & Dataflow</h3>
+                            <span class="tools-pane-count">2 tools</span>
+                        </div>
+                        <div class="tools-list">
+                            <div class="tools-row">
+                                <code>get_change_impact</code>
+                                <span>Impact analysis via symbol or git diff, with risk levels</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>analyze_dataflow</code>
+                                <span>Variable dataflow, taint analysis, or cross-function tracing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tools-pane" id="tt-viz">
+                        <div class="tools-pane-header">
+                            <h3>Visualization & History</h3>
+                            <span class="tools-pane-count">4 tools</span>
+                        </div>
+                        <div class="tools-list">
+                            <div class="tools-row">
+                                <code>find_hot_paths</code>
+                                <span>High-complexity x high-call-count optimization targets</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>get_dependency_graph</code>
+                                <span>File-level dependency graph as Mermaid or list</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>git_history</code>
+                                <span>Git blame, file churn, or change coupling analysis</span>
+                            </div>
+                            <div class="tools-row">
+                                <code>suggest_docs</code>
+                                <span>Find undocumented functions with context for doc generation</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -311,18 +437,21 @@ class Calculator:
                                 <button class="tab-btn" data-tab="t-cursor">Cursor</button>
                                 <button class="tab-btn" data-tab="t-vscode">VS Code</button>
                                 <button class="tab-btn" data-tab="t-windsurf">Windsurf</button>
+                                <button class="tab-btn" data-tab="t-desktop">Claude Desktop</button>
                             </div>
                             <div class="tab-pane active" id="t-claude">
                                 <pre><code>claude mcp add codetree -- \
-  codetree --root /path/to/project</code></pre>
+  uvx --from mcp-server-codetree codetree --root .</code></pre>
                             </div>
                             <div class="tab-pane" id="t-cursor">
                                 <pre><code>// .cursor/mcp.json
 {
   "mcpServers": {
     "codetree": {
-      "command": "codetree",
-      "args": ["--root", "/path/to/project"]
+      "command": "uvx",
+      "args": ["--from", "mcp-server-codetree",
+               "codetree", "--root",
+               "${workspaceFolder}"]
     }
   }
 }</code></pre>
@@ -332,8 +461,10 @@ class Calculator:
 {
   "servers": {
     "codetree": {
-      "command": "codetree",
-      "args": ["--root", "/path/to/project"]
+      "command": "uvx",
+      "args": ["--from", "mcp-server-codetree",
+               "codetree", "--root",
+               "${workspaceFolder}"]
     }
   }
 }</code></pre>
@@ -343,8 +474,23 @@ class Calculator:
 {
   "mcpServers": {
     "codetree": {
-      "command": "codetree",
-      "args": ["--root", "/path/to/project"]
+      "command": "uvx",
+      "args": ["--from", "mcp-server-codetree",
+               "codetree", "--root",
+               "${workspaceFolder}"]
+    }
+  }
+}</code></pre>
+                            </div>
+                            <div class="tab-pane" id="t-desktop">
+                                <pre><code>// claude_desktop_config.json
+{
+  "mcpServers": {
+    "codetree": {
+      "command": "uvx",
+      "args": ["--from", "mcp-server-codetree",
+               "codetree", "--root",
+               "/path/to/your/project"]
     }
   }
 }</code></pre>
@@ -360,7 +506,7 @@ class Calculator:
             <div class="container">
                 <div class="stats-row">
                     <div class="stat" data-reveal>
-                        <span class="stat-num" data-count="16">0</span>
+                        <span class="stat-num" data-count="23">0</span>
                         <span class="stat-label">MCP tools</span>
                     </div>
                     <div class="stat" data-reveal>
@@ -372,7 +518,7 @@ class Calculator:
                         <span class="stat-label">Startup</span>
                     </div>
                     <div class="stat" data-reveal>
-                        <span class="stat-num" data-count="921">0</span>
+                        <span class="stat-num" data-count="1058">0</span>
                         <span class="stat-label">Tests passing</span>
                     </div>
                 </div>
@@ -392,23 +538,28 @@ class Calculator:
                     </div>
                     <div class="alt-row" data-reveal>
                         <span class="alt-name">Reading files directly</span>
-                        <span class="alt-bad">Burns tokens, no structure</span>
-                        <span class="alt-good">25x token reduction</span>
+                        <span class="alt-bad">Burns tokens, no structure, no relationships</span>
+                        <span class="alt-good">25x token reduction, structured output</span>
                     </div>
                     <div class="alt-row" data-reveal>
                         <span class="alt-name">grep / ripgrep</span>
-                        <span class="alt-bad">Text only, no AST awareness</span>
-                        <span class="alt-good">Understands code structure</span>
+                        <span class="alt-bad">Text only, no AST awareness, no call graphs</span>
+                        <span class="alt-good">Understands code structure, not just text</span>
                     </div>
                     <div class="alt-row" data-reveal>
                         <span class="alt-name">LSP servers</span>
-                        <span class="alt-bad">Heavyweight, stateful</span>
-                        <span class="alt-good">One pip install, 10 languages</span>
+                        <span class="alt-bad">Heavyweight, stateful, language-specific</span>
+                        <span class="alt-good">One command, 10 languages, stateless MCP</span>
                     </div>
                     <div class="alt-row" data-reveal>
                         <span class="alt-name">SCIP / LSIF</span>
-                        <span class="alt-bad">Slow index, complex setup</span>
-                        <span class="alt-good">~1s startup, zero config</span>
+                        <span class="alt-bad">Slow builds, complex setup, huge indexes</span>
+                        <span class="alt-good">~1s startup, JSON cache, zero config</span>
+                    </div>
+                    <div class="alt-row" data-reveal>
+                        <span class="alt-name">AST-only tools</span>
+                        <span class="alt-bad">Raw trees are verbose, hard for agents</span>
+                        <span class="alt-good">Pre-structured output designed for agents</span>
                     </div>
                 </div>
             </div>
@@ -425,14 +576,11 @@ class Calculator:
                         <span class="panel-dot yellow"></span>
                         <span class="panel-dot green"></span>
                     </div>
-                    <pre class="term-code"><code><span class="tc"># Install</span>
-<span class="tp">$</span> pip install codetree
+                    <pre class="term-code"><code><span class="tc"># Add to Claude Code (recommended)</span>
+<span class="tp">$</span> claude mcp add codetree -- uvx --from mcp-server-codetree codetree --root .
 
-<span class="tc"># Run on your project</span>
-<span class="tp">$</span> codetree --root .
-
-<span class="tc"># Add to Claude Code</span>
-<span class="tp">$</span> claude mcp add codetree -- codetree --root .</code></pre>
+<span class="tc"># Or install via pip</span>
+<span class="tp">$</span> pip install mcp-server-codetree</code></pre>
                 </div>
                 <a href="https://github.com/ThinkyMiner/codeTree" target="_blank" class="btn-primary btn-lg">View on GitHub &rarr;</a>
             </div>
